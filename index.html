@@ -16,6 +16,14 @@
         h1 {
             font-size: 24px;
             color: #222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .logo {
+            width: 50px;
+            height: 50px;
         }
         .container {
             max-width: 500px;
@@ -79,7 +87,10 @@
     </style>
 </head>
 <body>
-    <h1><i class="fas fa-graduation-cap"></i> NPTEL Marks Fetcher</h1>
+    <h1>
+        <img src="logo.png" alt="Logo" class="logo">
+        NPTEL Marks Fetcher
+    </h1>
     <div class="container">
         <label for="email">Enter Email</label>
         <input type="email" id="email" placeholder="Enter your email">
