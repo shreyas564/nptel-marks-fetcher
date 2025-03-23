@@ -4,354 +4,141 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NPTEL Marks Fetcher</title>
-    <!-- Load Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            /* Light theme variables */
-            --background: #f4f7fa;
-            --text-color: #333;
-            --card-bg: white;
-            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            --label-color: #34495e;
-            --input-bg: #fff;
-            --input-border: #ccc;
-            --table-header-bg: #3498db;
-            --table-header-text: white;
-            --table-row-bg: #fff;
-            --table-row-hover-bg: #f8f9fa;
-            --table-border: #e0e0e0;
-            --button-bg: #27ae60;
-            --button-hover-bg: #219653;
-            --button-text: white;
-            --error-text: #c0392b;
-        }
-
-        [data-theme="dark"] {
-            /* Dark theme variables */
-            --background: #2c3e50;
-            --text-color: #ecf0f1;
-            --card-bg: #34495e;
-            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            --label-color: #ecf0f1;
-            --input-bg: #3d566e;
-            --input-border: #4b6584;
-            --table-header-bg: #1abc9c;
-            --table-header-text: #fff;
-            --table-row-bg: #3d566e;
-            --table-row-hover-bg: #465c71;
-            --table-border: #4b6584;
-            --button-bg: #1abc9c;
-            --button-hover-bg: #16a085;
-            --button-text: #fff;
-            --error-text: #e74c3c;
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
-            background: var(--background);
-            color: var(--text-color);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            animation: fadeIn 0.5s ease-in-out;
+            background: #f4f4f9;
+            text-align: center;
         }
-
         h1 {
-            font-size: 28px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 24px;
+            color: #222;
         }
-
-        h1 i {
-            color: var(--button-bg);
-        }
-
         .container {
-            width: 100%;
-            max-width: 600px;
-            background: var(--card-bg);
-            border-radius: 12px;
-            box-shadow: var(--card-shadow);
+            max-width: 500px;
+            margin: auto;
+            background: white;
             padding: 20px;
-            margin-bottom: 20px;
-            animation: slideUp 0.5s ease-in-out;
+            border-radius: 10px;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
         }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
         label {
+            font-weight: bold;
             display: block;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--label-color);
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
-
         input {
             width: 100%;
             padding: 10px;
             font-size: 14px;
-            border: 1px solid var(--input-border);
+            border: 1px solid #ccc;
             border-radius: 5px;
-            background: var(--input-bg);
-            color: var(--text-color);
-            box-sizing: border-box;
+            margin-bottom: 15px;
         }
-
-        input:focus {
-            outline: none;
-            border-color: var(--button-bg);
-        }
-
         button {
-            background-color: var(--button-bg);
-            color: var(--button-text);
+            background-color: #007bff;
+            color: white;
             border: none;
-            padding: 12px 20px;
-            font-size: 16px;
-            font-weight: 500;
-            border-radius: 25px;
+            padding: 12px;
+            width: 100%;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.1s ease;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin: 0 auto;
-            animation: slideUp 0.5s ease-in-out;
+            transition: 0.3s;
         }
-
         button:hover {
-            background-color: var(--button-hover-bg);
-            transform: translateY(-2px);
+            background-color: #0056b3;
         }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        button:disabled {
-            background-color: #bdc3c7;
-            cursor: not-allowed;
-            transform: none;
-        }
-
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
-            font-size: 14px;
-            background: var(--table-row-bg);
+            margin-top: 15px;
+            background: white;
             border-radius: 8px;
             overflow: hidden;
-            display: none; /* Hidden by default */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
         }
-
         th, td {
-            padding: 12px 15px;
+            padding: 10px;
             text-align: left;
+            border-bottom: 1px solid #ddd;
         }
-
         th {
-            background-color: var(--table-header-bg);
-            color: var(--table-header-text);
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 12px;
+            background: #007bff;
+            color: white;
         }
-
-        td {
-            border-bottom: 1px solid var(--table-border);
-            color: var(--text-color);
-            animation: fadeInRow 0.5s ease-in-out;
-        }
-
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        tr:hover td {
-            background-color: var(--table-row-hover-bg);
-        }
-
-        #message {
-            margin-top: 15px;
+        .message {
+            margin-top: 10px;
             font-size: 14px;
-            text-align: center;
-            padding: 8px;
-            border-radius: 5px;
-            display: none; /* Hidden by default */
-        }
-
-        .error {
-            color: var(--error-text);
-        }
-
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            font-size: 18px;
-            cursor: pointer;
-            color: var(--text-color);
-            transition: transform 0.3s ease;
-        }
-
-        .theme-toggle:hover {
-            transform: rotate(20deg);
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInRow {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            color: red;
         }
     </style>
 </head>
 <body>
-    <button class="theme-toggle" id="themeToggle" title="Toggle Theme">
-        <i class="fas fa-moon"></i>
-    </button>
     <h1><i class="fas fa-graduation-cap"></i> NPTEL Marks Fetcher</h1>
     <div class="container">
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" placeholder="Enter your email" required>
-        </div>
+        <label for="email">Enter Email</label>
+        <input type="email" id="email" placeholder="Enter your email">
         <button id="fetchButton"><i class="fas fa-search"></i> Fetch Marks</button>
+        <p id="message" class="message" style="display:none;"></p>
     </div>
-
     <div class="container">
-        <table id="resultsTable">
+        <table id="resultsTable" style="display:none;">
             <thead>
                 <tr>
                     <th>Name</th>
                     <th>Course Name</th>
-                    <th>Score (out of 10)</th>
+                    <th>Score</th>
                 </tr>
             </thead>
             <tbody id="resultsBody"></tbody>
         </table>
-        <p id="message"></p>
     </div>
-
     <script>
-        // Theme toggle functionality
-        const themeToggle = document.getElementById('themeToggle');
-        const body = document.body;
-
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        body.setAttribute('data-theme', savedTheme);
-        themeToggle.innerHTML = savedTheme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = body.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            body.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-        });
-
-        // Fetch data functionality with retries
-        const fetchButton = document.getElementById('fetchButton');
-        const emailInput = document.getElementById('email');
-        const resultsTable = document.getElementById('resultsTable');
-        const resultsBody = document.getElementById('resultsBody');
-        const message = document.getElementById('message');
-
-        async function fetchDataWithRetries(email, retries = 3, delay = 2000) {
-            for (let attempt = 1; attempt <= retries; attempt++) {
-                try {
-                    message.textContent = `Fetching data... (Attempt ${attempt}/${retries})`;
-                    message.className = '';
-                    message.style.display = 'block';
-
-                    const response = await fetch(`https://nptel-backend-bauf.onrender.com/fetch-data?email=${encodeURIComponent(email)}`);
-                    const data = await response.json();
-
-                    if (response.ok) {
-                        if (data.length > 0) {
-                            // Display the results in the table
-                            data.forEach(record => {
-                                const row = document.createElement('tr');
-                                row.innerHTML = `
-                                    <td>${record.name}</td>
-                                    <td>${record.courseName}</td>
-                                    <td>${record.score.toFixed(2)}</td>
-                                `;
-                                resultsBody.appendChild(row);
-                            });
-                            resultsTable.style.display = 'table';
-                            message.style.display = 'none';
-                        } else {
-                            message.textContent = 'No records found for the given email.';
-                            message.className = 'error';
-                            message.style.display = 'block';
-                            resultsTable.style.display = 'none';
-                        }
-                        return true; // Success
-                    } else {
-                        message.textContent = `Error: ${data.error || 'Failed to fetch data'}`;
-                        message.className = 'error';
-                        message.style.display = 'block';
-                        resultsTable.style.display = 'none';
-                        return false; // Failure
-                    }
-                } catch (error) {
-                    console.error('Error fetching data:', error);
-                    message.textContent = `Error: Failed to fetch data. ${attempt < retries ? 'Retrying...' : 'Please try again later.'}`;
-                    message.className = 'error';
-                    message.style.display = 'block';
-                    resultsTable.style.display = 'none';
-
-                    if (attempt < retries) {
-                        await new Promise(resolve => setTimeout(resolve, delay));
-                        continue;
-                    }
-                    return false; // Failure after all retries
-                }
-            }
-        }
-
-        fetchButton.addEventListener('click', async () => {
-            const email = emailInput.value.trim();
-
-            // Validate input
+        document.getElementById('fetchButton').addEventListener('click', async () => {
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message');
+            const resultsTable = document.getElementById('resultsTable');
+            const resultsBody = document.getElementById('resultsBody');
+            
             if (!email) {
                 message.textContent = 'Please enter an email.';
-                message.className = 'error';
                 message.style.display = 'block';
                 resultsTable.style.display = 'none';
                 return;
             }
-
-            // Clear previous results and messages
+            
+            message.textContent = 'Fetching data...';
+            message.style.display = 'block';
+            resultsTable.style.display = 'none';
             resultsBody.innerHTML = '';
-            message.style.display = 'none';
-            fetchButton.disabled = true;
-
-            const success = await fetchDataWithRetries(email);
-            fetchButton.disabled = false;
+            
+            try {
+                const response = await fetch(`https://nptel-backend-bauf.onrender.com/fetch-data?email=${encodeURIComponent(email)}`);
+                const data = await response.json();
+                
+                if (response.ok && data.length > 0) {
+                    data.forEach(record => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `<td>${record.name}</td><td>${record.courseName}</td><td>${record.score.toFixed(2)}</td>`;
+                        resultsBody.appendChild(row);
+                    });
+                    resultsTable.style.display = 'table';
+                    message.style.display = 'none';
+                } else {
+                    message.textContent = 'No records found for the given email.';
+                    message.style.display = 'block';
+                    resultsTable.style.display = 'none';
+                }
+            } catch (error) {
+                message.textContent = 'Error: Failed to fetch data. Please try again later.';
+                message.style.display = 'block';
+                resultsTable.style.display = 'none';
+            }
         });
     </script>
 </body>
